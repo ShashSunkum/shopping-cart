@@ -19,7 +19,7 @@ const Header = () => {
     <HeaderWrapper>
       <Container>
         <Link to={routes.HOME}>
-          <Logo>FakeStore</Logo>
+          <Logo>Fashion Planet</Logo>
         </Link>
         <Navbar>
           <NavbarLink to={routes.HOME}>Home</NavbarLink>

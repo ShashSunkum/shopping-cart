@@ -1,15 +1,17 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '../elements/Button'
-import CardItemCard from './CartItemCard'
+import CartItemCard from './CartItemCard'
 import { closeCart } from '../../state/actions'
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart)
   const isCartOpen = useSelector((state) => state.isCartOpen)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const sumTotal = () => {
     return cart
@@ -20,15 +22,20 @@ const Cart = () => {
       .toFixed(2)
   }
 
+  const handleCheckout = () => {
+    dispatch(closeCart())
+    history.push('/checkout', { cart })
+  }
+
   const cartItems = cart.map((cartItem) => (
-    <CardItemCard
+    <CartItemCard
       key={uuidv4()}
       id={cartItem.id}
       title={cartItem.title}
       price={cartItem.price}
       image={cartItem.image}
       quantity={cartItem.quantity}
-    ></CardItemCard>
+    ></CartItemCard>
   ))
 
   return (
@@ -38,6 +45,7 @@ const Cart = () => {
         <Products>{cartItems}</Products>
         <Total>Total: ${sumTotal()}</Total>
         <Button
+          onClick={handleCheckout}
           content="Checkout"
           size="wide"
           color="primary"
